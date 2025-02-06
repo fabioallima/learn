@@ -5,25 +5,26 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Instant;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "tb_course")
-public class Course {
+@Table(name = "tb_offer")
+public class Offer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String edition;
 
-    private String imgUri;
+    private Instant startMoment;
 
-    private String imgGrayUri;
+    private Instant endMoment;
 
-    @OneToMany(mappedBy = "course")
-    private List<Offer> offers = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course;
 }
