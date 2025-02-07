@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -16,13 +14,11 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"id"})
 @ToString
 @Entity
-@Table(name = "tb_topic")
-public class Topic {
+@Table(name = "tb_reply")
+public class Reply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String title;
 
     @Column(columnDefinition = "TEXT")
     private String body;
@@ -31,23 +27,16 @@ public class Topic {
     private Instant moment;
 
     @ManyToOne
-    @JoinColumn(name = "lesson_id")
-    private Lesson lesson;
+    @JoinColumn(name= "topic_id")
+    private Topic topic;
 
     @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
-
-    @ManyToOne
-    @JoinColumn(name = "offer_id")
-    private Offer offer;
 
     @ManyToMany
     @JoinTable(name = "tb_topic_likes",
             joinColumns = @JoinColumn(name = "topic_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> likes = new HashSet<>();
-
-    @OneToMany(mappedBy = "topic")
-    private List<Reply> replies = new ArrayList<>();
 }
